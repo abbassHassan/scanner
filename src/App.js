@@ -6,6 +6,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import MainLayout from "./Layouts/MainLayout";
 import Products from "./Pages/Products";
+import Categories from "./Pages/Categories";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Products /> },
       { path: "products", element: <Products /> },
+      { path: "categories", element: <Categories /> },
     ],
   },
   {
