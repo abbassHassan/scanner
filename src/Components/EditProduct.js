@@ -1,13 +1,40 @@
 // src/Components/EditProduct.js
-import React, { useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { doc, updateDoc, getDocs, collection } from "firebase/firestore";
 import { db } from "../Firebase";
+import Select from "react-select";
 
 const EditProduct = ({ product, onSave }) => {
   const [name, setName] = useState(product.name);
   const [description, setDescription] = useState(product.description);
   const [barcodeId, setBarcodeId] = useState(product.barcode_id);
   const [price, setPrice] = useState(product.price);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesCollection = collection(db, "categories");
+      const categoriesSnapshot = await getDocs(categoriesCollection);
+      const categoriesList = categoriesSnapshot.docs.map((doc) => ({
+        value: doc.ref.path,
+        label: doc.data().name,
+      }));
+      setCategories(categoriesList);
+
+      if (product.category && typeof product.category === "string") {
+        const categoryDoc = categoriesList.find(
+          (cat) => cat.value === product.category
+        );
+        const categoryLabel = categoryDoc
+          ? categoryDoc.label
+          : product.category.split("/").pop();
+        setSelectedCategory({ value: product.category, label: categoryLabel });
+      }
+    };
+
+    fetchCategories();
+  }, [product.category]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +43,7 @@ const EditProduct = ({ product, onSave }) => {
       description,
       barcode_id: barcodeId,
       price: parseFloat(price),
+      category: selectedCategory ? selectedCategory.value : null,
     };
     try {
       await updateDoc(doc(db, "products", product.id), updatedProduct);
@@ -82,6 +110,18 @@ const EditProduct = ({ product, onSave }) => {
           onChange={(e) => setPrice(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded"
           required
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block mb-1" htmlFor="category">
+          Category
+        </label>
+        <Select
+          id="category"
+          options={categories}
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+          className="w-full"
         />
       </div>
       <button

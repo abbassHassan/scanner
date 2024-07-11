@@ -1,13 +1,30 @@
 // src/Components/AddProduct.js
-import React, { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
+import Select from "react-select";
 
 const AddProduct = ({ onAdd }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [barcodeId, setBarcodeId] = useState("");
   const [price, setPrice] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesCollection = collection(db, "categories");
+      const categoriesSnapshot = await getDocs(categoriesCollection);
+      const categoriesList = categoriesSnapshot.docs.map((doc) => ({
+        value: doc.ref.path,
+        label: doc.data().name,
+      }));
+      setCategories(categoriesList);
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,15 +33,17 @@ const AddProduct = ({ onAdd }) => {
       description,
       barcode_id: barcodeId,
       price: parseFloat(price),
+      category: selectedCategory.value,
     };
     try {
       const docRef = await addDoc(collection(db, "products"), newProduct);
       console.log("Document written with ID: ", docRef.id);
-      onAdd(); // Call the onAdd prop to trigger a refresh
+      onAdd();
       setName("");
       setDescription("");
       setBarcodeId("");
       setPrice("");
+      setSelectedCategory(null);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -86,6 +105,19 @@ const AddProduct = ({ onAdd }) => {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block mb-1" htmlFor="category">
+          Category
+        </label>
+        <Select
+          id="category"
+          options={categories}
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+          className="w-full"
           required
         />
       </div>
