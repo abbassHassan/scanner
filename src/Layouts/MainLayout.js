@@ -1,3 +1,4 @@
+// src/Layouts/MainLayout.js
 import React from "react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
@@ -25,6 +26,11 @@ const MainLayout = () => {
             <li className="mb-2">
               <Link to="/products" className="text-white hover:text-gray-400">
                 Products
+              </Link>
+            </li>
+            <li className="mb-2">
+              <Link to="/categories" className="text-white hover:text-gray-400">
+                Categories
               </Link>
             </li>
             <li className="mt-auto">
