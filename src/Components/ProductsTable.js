@@ -1,18 +1,35 @@
 // src/Components/ProductsTable.js
-import React, { useEffect, useState } from "react";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import React, { useEffect, useState, useCallback } from "react";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../Firebase";
 import Table from "./Table";
 import EditProduct from "./EditProduct";
 
-const ProductsTable = ({ refresh }) => {
+const ProductsTable = ({ refresh, categoryFilter }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editProduct, setEditProduct] = useState(null);
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
-    const productsCollection = collection(db, "products");
+    let productsCollection = collection(db, "products");
+
+    if (categoryFilter) {
+      productsCollection = query(
+        productsCollection,
+        where("category", "==", categoryFilter)
+      );
+    } else {
+      productsCollection = collection(db, "products"); // Get all products
+    }
+
     const productsSnapshot = await getDocs(productsCollection);
     const productsList = productsSnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -20,11 +37,11 @@ const ProductsTable = ({ refresh }) => {
     }));
     setProducts(productsList);
     setLoading(false);
-  };
+  }, [categoryFilter]);
 
   useEffect(() => {
     fetchProducts();
-  }, [refresh]);
+  }, [refresh, categoryFilter, fetchProducts]);
 
   const handleDelete = async (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
@@ -75,6 +92,7 @@ const ProductsTable = ({ refresh }) => {
             setEditProduct(null);
             fetchProducts();
           }}
+          onClose={() => setEditProduct(null)}
         />
       )}
       <Table headers={headers} data={products} renderRow={renderRow} />
