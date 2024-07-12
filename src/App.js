@@ -9,6 +9,7 @@ import MainLayout from "./Layouts/MainLayout";
 import Products from "./Pages/Products";
 import Categories from "./Pages/Categories";
 import OrderItems from "./Pages/OrderItems";
+import Orders from "./Pages/Orders";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: "products", element: <Products /> },
       { path: "categories", element: <Categories /> },
       { path: "order-items", element: <OrderItems /> },
+      { path: "orders", element: <Orders /> },
     ],
   },
   {
