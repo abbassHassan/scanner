@@ -41,6 +41,11 @@ const MainLayout = () => {
                 Order Items
               </Link>
             </li>
+            <li className="mb-2">
+              <Link to="/orders" className="text-white hover:text-gray-400">
+                Orders
+              </Link>
+            </li>
             <li className="mt-auto">
               <Link
                 to="/login"
