@@ -2,7 +2,6 @@
 import React from "react";
 
 const Table = ({ headers, data, renderRow }) => {
-  console.log(data);
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white shadow-md rounded">

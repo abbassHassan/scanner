@@ -1,3 +1,4 @@
+// src/App.js
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./Contexts/AuthContext";
@@ -7,6 +8,7 @@ import Register from "./Pages/Register";
 import MainLayout from "./Layouts/MainLayout";
 import Products from "./Pages/Products";
 import Categories from "./Pages/Categories";
+import OrderItems from "./Pages/OrderItems";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Products /> },
       { path: "products", element: <Products /> },
       { path: "categories", element: <Categories /> },
+      { path: "order-items", element: <OrderItems /> },
     ],
   },
   {

@@ -33,6 +33,14 @@ const MainLayout = () => {
                 Categories
               </Link>
             </li>
+            <li className="mb-2">
+              <Link
+                to="/order-items"
+                className="text-white hover:text-gray-400"
+              >
+                Order Items
+              </Link>
+            </li>
             <li className="mt-auto">
               <Link
                 to="/login"
