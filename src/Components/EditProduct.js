@@ -1,4 +1,3 @@
-// src/Components/EditProduct.js
 import React, { useState, useEffect } from "react";
 import { doc, updateDoc, getDocs, collection } from "firebase/firestore";
 import { db } from "../Firebase";
@@ -17,18 +16,18 @@ const EditProduct = ({ product, onSave }) => {
       const categoriesCollection = collection(db, "categories");
       const categoriesSnapshot = await getDocs(categoriesCollection);
       const categoriesList = categoriesSnapshot.docs.map((doc) => ({
-        value: doc.ref.path,
+        value: doc.ref,
         label: doc.data().name,
       }));
       setCategories(categoriesList);
 
-      if (product.category && typeof product.category === "string") {
+      if (product.category && typeof product.category === "object") {
         const categoryDoc = categoriesList.find(
-          (cat) => cat.value === product.category
+          (cat) => cat.value.id === product.category.id
         );
         const categoryLabel = categoryDoc
           ? categoryDoc.label
-          : product.category.split("/").pop();
+          : product.category.id.split("/").pop();
         setSelectedCategory({ value: product.category, label: categoryLabel });
       }
     };
