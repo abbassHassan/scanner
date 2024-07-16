@@ -1,4 +1,3 @@
-// src/Components/AddProduct.js
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
@@ -17,7 +16,7 @@ const AddProduct = ({ onAdd }) => {
       const categoriesCollection = collection(db, "categories");
       const categoriesSnapshot = await getDocs(categoriesCollection);
       const categoriesList = categoriesSnapshot.docs.map((doc) => ({
-        value: doc.ref.path,
+        value: doc.ref,
         label: doc.data().name,
       }));
       setCategories(categoriesList);
