@@ -5,12 +5,12 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAzSLD1C8d4jAuzOmCdeB9ZHI0HgviBY3g",
-  authDomain: "scanner-kb816f.firebaseapp.com",
-  projectId: "scanner-kb816f",
-  storageBucket: "scanner-kb816f.appspot.com",
-  messagingSenderId: "202007813558",
-  appId: "1:202007813558:web:355df7fb4eaf8254bbb517",
+  apiKey: "AIzaSyCKkrjPzyS4-P2RMUHjjPAEw7bfrQ32i5M",
+  authDomain: "scannerr-k6ayp6.firebaseapp.com",
+  projectId: "scannerr-k6ayp6",
+  storageBucket: "scannerr-k6ayp6.appspot.com",
+  messagingSenderId: "263648883687",
+  appId: "1:263648883687:web:73ad4389bfbc087d5c0342",
 };
 
 const app = initializeApp(firebaseConfig);
