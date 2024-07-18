@@ -1,4 +1,3 @@
-// src/Components/CategoriesTable.js
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../Firebase";
@@ -68,6 +67,7 @@ const CategoriesTable = ({ refresh }) => {
             setEditCategory(null);
             fetchCategories();
           }}
+          onClose={() => setEditCategory(null)} // Pass the onClose prop
         />
       )}
       <Table headers={headers} data={categories} renderRow={renderRow} />
