@@ -27,12 +27,12 @@ const EditOrderItem = ({ orderItem, onSave, onClose }) => {
       }));
       setOrders(ordersList);
 
-      const initialOrderDoc = await getDoc(doc(db, orderItem.order));
+      const initialOrderDoc = await getDoc(doc(db, orderItem.order.path));
       const initialOrder = {
-        value: orderItem.order,
+        value: orderItem.order.path,
         label: initialOrderDoc.exists()
           ? initialOrderDoc.data().name || initialOrderDoc.id
-          : orderItem.order,
+          : orderItem.order.path,
       };
       setSelectedOrder(initialOrder);
     };
@@ -46,12 +46,12 @@ const EditOrderItem = ({ orderItem, onSave, onClose }) => {
       }));
       setProducts(productsList);
 
-      const initialProductDoc = await getDoc(doc(db, orderItem.product));
+      const initialProductDoc = await getDoc(doc(db, orderItem.product.path));
       const initialProduct = {
-        value: orderItem.product,
+        value: orderItem.product.path,
         label: initialProductDoc.exists()
           ? initialProductDoc.data().name
-          : orderItem.product,
+          : orderItem.product.path,
       };
       setSelectedProduct(initialProduct);
     };
@@ -63,8 +63,8 @@ const EditOrderItem = ({ orderItem, onSave, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedOrderItem = {
-      order: selectedOrder.value,
-      product: selectedProduct.value,
+      order: doc(db, selectedOrder.value),
+      product: doc(db, selectedProduct.value),
       price: parseFloat(price),
       quantity: parseInt(quantity, 10),
     };
@@ -80,6 +80,7 @@ const EditOrderItem = ({ orderItem, onSave, onClose }) => {
   return (
     <div className="relative mb-4 p-4 bg-white shadow-md rounded">
       <button
+        type="button"
         onClick={onClose}
         className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
       >
