@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { doc, updateDoc, getDocs, collection } from "firebase/firestore";
-import { db } from "../Firebase";
+import { db, storage } from "../Firebase";
 import Select from "react-select";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const EditProduct = ({ product, onSave }) => {
   const [name, setName] = useState(product.name);
@@ -10,6 +11,7 @@ const EditProduct = ({ product, onSave }) => {
   const [price, setPrice] = useState(product.price);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [imageUrl, setImageUrl] = useState(product.image_url || "");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -35,6 +37,13 @@ const EditProduct = ({ product, onSave }) => {
     fetchCategories();
   }, [product.category]);
 
+  const handleImageUpload = async (file) => {
+    const storageRef = ref(storage, `products/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    setImageUrl(url);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedProduct = {
@@ -43,6 +52,7 @@ const EditProduct = ({ product, onSave }) => {
       barcode_id: barcodeId,
       price: parseFloat(price),
       category: selectedCategory ? selectedCategory.value : null,
+      image_url: imageUrl,
     };
     try {
       await updateDoc(doc(db, "products", product.id), updatedProduct);
@@ -50,6 +60,11 @@ const EditProduct = ({ product, onSave }) => {
     } catch (e) {
       console.error("Error updating document: ", e);
     }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    handleImageUpload(file);
   };
 
   return (
@@ -122,6 +137,26 @@ const EditProduct = ({ product, onSave }) => {
           onChange={setSelectedCategory}
           className="w-full"
         />
+      </div>
+      <div className="mb-2 flex items-center">
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt="Product"
+            className="w-20 h-20 object-cover mt-4 mr-4"
+          />
+        )}
+        <div>
+          <label className="block mb-1" htmlFor="image">
+            Change Image
+          </label>
+          <input
+            id="image"
+            type="file"
+            onChange={handleImageChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+        </div>
       </div>
       <button
         type="submit"

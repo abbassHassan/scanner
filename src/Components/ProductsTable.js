@@ -1,4 +1,3 @@
-// src/Components/ProductsTable.js
 import React, { useEffect, useState, useCallback } from "react";
 import {
   collection,
@@ -24,7 +23,7 @@ const ProductsTable = ({ refresh, categoryFilter }) => {
     if (categoryFilter) {
       productsCollection = query(
         productsCollection,
-        where("category", "==", categoryFilter)
+        where("category", "==", doc(db, categoryFilter))
       );
     } else {
       productsCollection = collection(db, "products"); // Get all products
