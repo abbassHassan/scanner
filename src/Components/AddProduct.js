@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, getDocs } from "firebase/firestore";
-import { db } from "../Firebase";
+import { db, storage } from "../Firebase";
 import Select from "react-select";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const AddProduct = ({ onAdd }) => {
   const [name, setName] = useState("");
@@ -10,6 +11,7 @@ const AddProduct = ({ onAdd }) => {
   const [price, setPrice] = useState("");
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -25,6 +27,14 @@ const AddProduct = ({ onAdd }) => {
     fetchCategories();
   }, []);
 
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `products/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    setImageUrl(url);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newProduct = {
@@ -33,6 +43,7 @@ const AddProduct = ({ onAdd }) => {
       barcode_id: barcodeId,
       price: parseFloat(price),
       category: selectedCategory.value,
+      image_url: imageUrl,
     };
     try {
       const docRef = await addDoc(collection(db, "products"), newProduct);
@@ -43,9 +54,15 @@ const AddProduct = ({ onAdd }) => {
       setBarcodeId("");
       setPrice("");
       setSelectedCategory(null);
+      setImageUrl("");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    handleImageUpload(file);
   };
 
   return (
@@ -118,6 +135,17 @@ const AddProduct = ({ onAdd }) => {
           onChange={setSelectedCategory}
           className="w-full"
           required
+        />
+      </div>
+      <div className="mb-2">
+        <label className="block mb-1" htmlFor="image">
+          Image
+        </label>
+        <input
+          id="image"
+          type="file"
+          onChange={handleImageChange}
+          className="w-full p-2 border border-gray-300 rounded"
         />
       </div>
       <button
