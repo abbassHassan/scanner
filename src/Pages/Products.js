@@ -1,4 +1,3 @@
-// src/Pages/Products.js
 import React, { useState, useEffect } from "react";
 import ProductsTable from "../Components/ProductsTable";
 import AddProduct from "../Components/AddProduct";
