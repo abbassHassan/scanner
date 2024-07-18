@@ -1,4 +1,3 @@
-// src/Components/OrdersTable.js
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../Firebase";
@@ -69,6 +68,7 @@ const OrdersTable = ({ refresh }) => {
             setEditOrder(null);
             fetchOrders();
           }}
+          onClose={() => setEditOrder(null)} // Pass the onClose prop
         />
       )}
       <Table headers={headers} data={orders} renderRow={renderRow} />

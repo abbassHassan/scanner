@@ -1,4 +1,3 @@
-// src/Pages/Categories.js
 import React, { useState } from "react";
 import CategoriesTable from "../Components/CategoriesTable";
 import AddCategory from "../Components/AddCategory";
@@ -27,7 +26,9 @@ const Categories = () => {
           Add Category
         </button>
       </div>
-      {showForm && <AddCategory onAdd={handleAddCategory} />}
+      {showForm && (
+        <AddCategory onAdd={handleAddCategory} onClose={handleAddItem} />
+      )}
       <CategoriesTable refresh={refresh} />
     </div>
   );

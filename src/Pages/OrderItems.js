@@ -1,4 +1,3 @@
-// src/Pages/OrderItems.js
 import React, { useState } from "react";
 import OrderItemsTable from "../Components/OrderItemsTable";
 import AddOrderItem from "../Components/AddOrderItem";
@@ -27,7 +26,9 @@ const OrderItems = () => {
           Add Order Item
         </button>
       </div>
-      {showForm && <AddOrderItem onAdd={handleAddOrderItem} />}
+      {showForm && (
+        <AddOrderItem onAdd={handleAddOrderItem} onClose={handleAddItem} />
+      )}
       <OrderItemsTable refresh={refresh} />
     </div>
   );

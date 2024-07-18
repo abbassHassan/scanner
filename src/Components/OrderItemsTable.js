@@ -23,15 +23,8 @@ const OrderItemsTable = ({ refresh }) => {
       orderItemsSnapshot.docs.map(async (orderItemDoc) => {
         const orderItemData = orderItemDoc.data();
 
-        // Ensure the order and product fields are strings
-        const orderPath =
-          typeof orderItemData.order === "string"
-            ? orderItemData.order
-            : orderItemData.order.path;
-        const productPath =
-          typeof orderItemData.product === "string"
-            ? orderItemData.product
-            : orderItemData.product.path;
+        const orderPath = orderItemData.order.path || orderItemData.order;
+        const productPath = orderItemData.product.path || orderItemData.product;
 
         const orderDoc = await getDoc(doc(db, orderPath));
         const productDoc = await getDoc(doc(db, productPath));
@@ -109,7 +102,7 @@ const OrderItemsTable = ({ refresh }) => {
             setEditOrderItem(null);
             fetchOrderItems();
           }}
-          onClose={() => setEditOrderItem(null)}
+          onClose={() => setEditOrderItem(null)} // Pass the onClose prop
         />
       )}
       <Table headers={headers} data={orderItems} renderRow={renderRow} />

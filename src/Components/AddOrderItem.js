@@ -1,10 +1,9 @@
-// src/Components/AddOrderItem.js
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, getDocs, doc } from "firebase/firestore";
 import { db } from "../Firebase";
 import Select from "react-select";
 
-const AddOrderItem = ({ onAdd }) => {
+const AddOrderItem = ({ onAdd, onClose }) => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [orders, setOrders] = useState([]);
@@ -58,7 +57,14 @@ const AddOrderItem = ({ onAdd }) => {
   };
 
   return (
-    <div className="mb-4 p-4 bg-white shadow-md rounded">
+    <div className="relative mb-4 p-4 bg-white shadow-md rounded">
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-700"
+      >
+        &times;
+      </button>
       <h2 className="text-xl mb-4">Add New Order Item</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-2">

@@ -1,4 +1,3 @@
-// src/Pages/Orders.js
 import React, { useState } from "react";
 import OrdersTable from "../Components/OrdersTable";
 import AddOrderForm from "../Components/AddOrderForm"; // Ensure correct path and name
@@ -27,7 +26,9 @@ const Orders = () => {
           Add Order
         </button>
       </div>
-      {showForm && <AddOrderForm onAdd={handleAddOrder} />}
+      {showForm && (
+        <AddOrderForm onAdd={handleAddOrder} onClose={handleAddItem} />
+      )}
       <OrdersTable refresh={refresh} />
     </div>
   );
