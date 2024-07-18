@@ -53,7 +53,9 @@ const Products = () => {
           Add Product
         </button>
       </div>
-      {showForm && <AddProduct onAdd={handleAddProduct} />}
+      {showForm && (
+        <AddProduct onAdd={handleAddProduct} onClose={handleAddItem} />
+      )}
       <ProductsTable
         refresh={refresh}
         categoryFilter={selectedCategory?.value}

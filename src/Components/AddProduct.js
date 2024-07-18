@@ -4,7 +4,7 @@ import { db, storage } from "../Firebase";
 import Select from "react-select";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const AddProduct = ({ onAdd }) => {
+const AddProduct = ({ onAdd, onClose }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [barcodeId, setBarcodeId] = useState("");
@@ -68,8 +68,15 @@ const AddProduct = ({ onAdd }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mb-4 p-4 bg-white shadow-md rounded"
+      className="relative mb-4 p-4 bg-white shadow-md rounded"
     >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-0 right-0 mt-2 mr-2 text-gray-500 hover:text-gray-700"
+      >
+        &times;
+      </button>
       <h2 className="text-xl mb-4">Add New Product</h2>
       <div className="mb-2">
         <label className="block mb-1" htmlFor="name">
