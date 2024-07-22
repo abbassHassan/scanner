@@ -10,7 +10,7 @@ import Products from "./Pages/Products";
 import Categories from "./Pages/Categories";
 import OrderItems from "./Pages/OrderItems";
 import Orders from "./Pages/Orders";
-
+import GeneratePdf from "./Pages/GeneratePdf";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +27,7 @@ const router = createBrowserRouter([
       { path: "orders", element: <Orders /> },
     ],
   },
+  { path: "generate-pdf", element: <GeneratePdf /> },
   {
     path: "/login",
     element: <Login />,
