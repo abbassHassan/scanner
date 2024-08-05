@@ -92,19 +92,6 @@ const AddProduct = ({ onAdd, onClose }) => {
         />
       </div>
       <div className="mb-2">
-        <label className="block mb-1" htmlFor="description">
-          Description
-        </label>
-        <input
-          id="description"
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-          required
-        />
-      </div>
-      <div className="mb-2">
         <label className="block mb-1" htmlFor="barcodeId">
           Barcode ID
         </label>
@@ -113,20 +100,6 @@ const AddProduct = ({ onAdd, onClose }) => {
           type="text"
           value={barcodeId}
           onChange={(e) => setBarcodeId(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-          required
-        />
-      </div>
-      <div className="mb-2">
-        <label className="block mb-1" htmlFor="price">
-          Price
-        </label>
-        <input
-          id="price"
-          type="number"
-          step="0.01"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded"
           required
         />

@@ -49,18 +49,15 @@ const ProductsTable = ({ refresh, categoryFilter }) => {
     }
   };
 
-  const headers = ["Name", "Description", "Barcode ID", "Price", "Actions"];
+  const headers = ["Name", "Barcode ID", "Actions"];
 
   const renderRow = (product) => (
     <tr key={product.id}>
       <td className="py-2 px-4 border-b border-gray-200">{product.name}</td>
-      <td className="py-2 px-4 border-b border-gray-200">
-        {product.description}
-      </td>
+
       <td className="py-2 px-4 border-b border-gray-200">
         {product.barcode_id}
       </td>
-      <td className="py-2 px-4 border-b border-gray-200">{product.price}</td>
       <td className="py-2 px-4 border-b border-gray-200">
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
