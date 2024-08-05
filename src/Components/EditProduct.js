@@ -6,9 +6,9 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const EditProduct = ({ product, onSave, onClose }) => {
   const [name, setName] = useState(product.name);
-  const [description, setDescription] = useState(product.description);
+  const [description] = useState(product.description);
   const [barcodeId, setBarcodeId] = useState(product.barcode_id);
-  const [price, setPrice] = useState(product.price);
+  const [price] = useState(product.price);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [imageUrl, setImageUrl] = useState(product.image_url || "");
@@ -93,19 +93,7 @@ const EditProduct = ({ product, onSave, onClose }) => {
           required
         />
       </div>
-      <div className="mb-2">
-        <label className="block mb-1" htmlFor="description">
-          Description
-        </label>
-        <input
-          id="description"
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-          required
-        />
-      </div>
+
       <div className="mb-2">
         <label className="block mb-1" htmlFor="barcodeId">
           Barcode ID
@@ -115,20 +103,6 @@ const EditProduct = ({ product, onSave, onClose }) => {
           type="text"
           value={barcodeId}
           onChange={(e) => setBarcodeId(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-          required
-        />
-      </div>
-      <div className="mb-2">
-        <label className="block mb-1" htmlFor="price">
-          Price
-        </label>
-        <input
-          id="price"
-          type="number"
-          step="0.01"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded"
           required
         />
